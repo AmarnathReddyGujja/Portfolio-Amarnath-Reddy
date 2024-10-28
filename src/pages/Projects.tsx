@@ -54,42 +54,42 @@ const Projects = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="space-y-8 p-6 bg-spotify-darkgray rounded-lg"
+      className="space-y-8 p-6 pb-32 md:pb-24 bg-spotify-darkgray rounded-lg"
     >
       {/* Music Player Section */}
       <motion.div 
-        className="bg-gradient-to-r from-spotify-darkgray via-spotify-lightgray to-spotify-darkgray p-6 rounded-xl shadow-lg"
+        className="bg-gradient-to-r from-spotify-darkgray via-spotify-lightgray to-spotify-darkgray p-4 sm:p-6 rounded-xl shadow-lg"
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <h2 className="text-lg font-bold text-white mb-5 text-center tracking-wide">
+        <h2 className="text-base sm:text-lg font-bold text-white mb-4 sm:mb-5 text-center tracking-wide px-2">
           "READY TO DIVE INTO MY PROJECT SYMPHONY? HIT PLAY AND LET THE CODE MELODIES BLOW YOUR MIND!"
         </h2>
-        <div className="flex items-center space-x-6 bg-spotify-black bg-opacity-40 p-4 rounded-lg">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:space-x-6 bg-spotify-black bg-opacity-40 p-3 sm:p-4 rounded-lg">
           <motion.img
             src={projectsDetails[0].image}
             alt="Album Cover"
-            className="w-20 h-20 rounded-lg object-cover shadow-xl"
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover shadow-xl"
             whileHover={{ scale: 1.1, rotate: 5 }}
           />
-          <div className="flex-grow">
-            <p className="text-white font-semibold text-lg">Projects song</p>
-            <p className="text-gray-400">Artist: AI & Amarnath Reddy</p>
-            <p className="text-gray-500">3:59</p>
+          <div className="flex-grow text-center sm:text-left">
+            <p className="text-white font-semibold text-base sm:text-lg">Projects song</p>
+            <p className="text-gray-400 text-sm sm:text-base">Artist: AI & Amarnath Reddy</p>
+            <p className="text-gray-500 text-sm">3:59</p>
           </div>
           <motion.button 
-            className="flex items-center bg-spotify-green hover:bg-green-500 text-white py-3 px-6 rounded-full font-medium shadow-lg"
+            className="flex items-center bg-spotify-green hover:bg-green-500 text-white py-2 px-4 sm:py-3 sm:px-6 rounded-full font-medium shadow-lg text-sm sm:text-base"
             onClick={handlePlayClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             {currentSong?.id === 'projects-song' && isPlaying ? (
               <>
-                <Pause className="w-5 h-5 mr-2" /> Pause
+                <Pause className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Pause
               </>
             ) : (
               <>
-                <Play className="w-5 h-5 mr-2" /> Play
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Play
               </>
             )}
           </motion.button>
@@ -98,13 +98,13 @@ const Projects = () => {
 
       {/* Projects Content */}
       <motion.h1 
-        className="text-4xl font-bold text-spotify-green text-center"
+        className="text-3xl sm:text-4xl font-bold text-spotify-green text-center mt-4"
         initial={{ y: -20 }}
         animate={{ y: 0 }}
       >
         Projects
       </motion.h1>
-      <div className="grid gap-6">
+      <div className="grid gap-6 mb-16 sm:mb-0">
         {projectsDetails.map((project, index) => (
           <motion.div
             key={index}

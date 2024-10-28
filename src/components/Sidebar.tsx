@@ -29,7 +29,7 @@ const Sidebar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-12 mt-4"
+        className="mb-12 mt-4 md:mt-4 mt-16"
       >
         <Music2 className="w-12 h-12 text-spotify-green animate-pulse" />
       </motion.div>

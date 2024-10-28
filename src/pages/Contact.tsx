@@ -2,32 +2,30 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaEnvelope, FaLinkedin, FaTwitter, FaGithub } from 'react-icons/fa';
 
-const ContactIcon: React.FC<{ icon: React.ReactNode, link: string, label: string, onClick?: () => void }> = ({ icon, link, label, onClick }) => (
-  <motion.a
-    href={link}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-6xl text-white hover:text-spotify-green transition-colors duration-300 relative"
-    whileHover={{ scale: 1.2, rotate: 360 }}
-    whileTap={{ scale: 0.9 }}
-    onClick={onClick}
-  >
-    <span className="sr-only">{label}</span>
-    {icon}
-  </motion.a>
-);
+const ContactIcon: React.FC<{ icon: React.ReactNode, link?: string, label: string, onClick?: () => void }> = 
+  ({ icon, link, label, onClick }) => (
+    <motion.div
+      className="text-6xl text-white hover:text-spotify-green transition-colors duration-300 relative cursor-pointer"
+      whileHover={{ scale: 1.2, rotate: 360 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+    >
+      {link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          <span className="sr-only">{label}</span>
+          {icon}
+        </a>
+      ) : (
+        <>
+          <span className="sr-only">{label}</span>
+          {icon}
+        </>
+      )}
+    </motion.div>
+  );
 
 const Contact = () => {
   const [showEmail, setShowEmail] = useState(false);
-
-  const handleEmailClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowEmail(true);
-  };
-
-  const handleEmailHoverEnd = () => {
-    setShowEmail(false);
-  };
 
   return (
     <motion.div
@@ -71,12 +69,11 @@ const Contact = () => {
         >
           <motion.div 
             className="relative"
-            onMouseEnter={handleEmailClick}
-            onMouseLeave={handleEmailHoverEnd}
+            onHoverStart={() => setShowEmail(true)}
+            onHoverEnd={() => setShowEmail(false)}
           >
             <ContactIcon
               icon={<FaEnvelope />}
-              link="#" 
               label="Email"
             />
             <AnimatePresence>

@@ -25,12 +25,47 @@ interface MusicPlayerContextType {
   setVolume: (volume: number) => void;
 }
 
+// Define the ordered playlist
+const orderedPlaylist: Song[] = [
+  {
+    id: 'about-song',
+    title: 'Code Symphony',
+    subtitle: 'Amarnath Reddy',
+    duration: '3:21',
+    audioUrl: '../src/songs/Anthem.mp3',
+    image: '../src/assests/Rockstar.jpg'
+  },
+  {
+    id: 'experience-song',
+    title: 'Experience song',
+    subtitle: 'Amarnath Reddy',
+    duration: '1:55',
+    audioUrl: '../src/songs/experience.mp3',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c'
+  },
+  {
+    id: 'projects-song',
+    title: 'Projects song',
+    subtitle: 'Amarnath Reddy',
+    duration: '3:59',
+    audioUrl: '../src/songs/Project.mp3',
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113'
+  },
+  {
+    id: 'education-song',
+    title: 'Education song',
+    subtitle: 'Amarnath Reddy',
+    duration: '2:46',
+    audioUrl: '../src/songs/education.mp3',
+    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1'
+  }
+];
+
 const MusicPlayerContext = createContext<MusicPlayerContextType | undefined>(undefined);
 
 export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [playlist, setPlaylist] = useState<Song[]>([]);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(80);
@@ -38,9 +73,7 @@ export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     if (currentSong) {
-      console.log("Current song changed:", currentSong);
       audioRef.current.src = currentSong.audioUrl;
-      console.log("Audio source set to:", audioRef.current.src);
       if (isPlaying) {
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
@@ -52,24 +85,17 @@ export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
     return () => {
       audioRef.current.pause();
-      console.log("Audio paused on cleanup");
     };
   }, [currentSong, isPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
-
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
+    const handleVolumeChange = () => audio.volume = volume / 100;
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
-
-    // Add volume change listener
-    const handleVolumeChange = () => {
-      audioRef.current.volume = volume / 100;
-    };
-
     audio.addEventListener('volumechange', handleVolumeChange);
 
     return () => {
@@ -79,64 +105,47 @@ export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ c
     };
   }, [volume]);
 
-  // Update volume when it changes
-  useEffect(() => {
-    audioRef.current.volume = volume / 100;
-  }, [volume]);
-
   const playSong = useCallback((song: Song) => {
-    console.log("playSong called with:", song);
     setCurrentSong(song);
     setIsPlaying(true);
-    audioRef.current.src = song.audioUrl;
-    // Add a small delay before playing
     setTimeout(() => {
       audioRef.current.play()
-        .then(() => console.log("Audio started playing from playSong"))
-        .catch(error => console.error("Error playing audio from playSong:", error));
+        .catch(error => console.error("Error playing audio:", error));
     }, 100);
-    if (!playlist.some(s => s.id === song.id)) {
-      setPlaylist(prev => [...prev, song]);
-    }
-  }, [playlist]);
+  }, []);
 
   const pauseSong = useCallback(() => {
-    console.log("pauseSong called");
     setIsPlaying(false);
     audioRef.current.pause();
   }, []);
 
   const togglePlay = useCallback(() => {
-    console.log("togglePlay called, current isPlaying:", isPlaying);
     setIsPlaying(prev => !prev);
     if (isPlaying) {
       audioRef.current.pause();
-      console.log("Audio paused from togglePlay");
     } else if (currentSong) {
-      // Add a small delay before playing
       setTimeout(() => {
         audioRef.current.play()
-          .then(() => console.log("Audio started playing from togglePlay"))
-          .catch(error => console.error("Error playing audio from togglePlay:", error));
+          .catch(error => console.error("Error playing audio:", error));
       }, 100);
     }
   }, [isPlaying, currentSong]);
 
   const nextSong = useCallback(() => {
-    if (currentSong && playlist.length > 0) {
-      const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
-      const nextIndex = (currentIndex + 1) % playlist.length;
-      playSong(playlist[nextIndex]);
-    }
-  }, [currentSong, playlist, playSong]);
+    if (!currentSong) return;
+    
+    const currentIndex = orderedPlaylist.findIndex(song => song.id === currentSong.id);
+    const nextIndex = (currentIndex + 1) % orderedPlaylist.length;
+    playSong(orderedPlaylist[nextIndex]);
+  }, [currentSong, playSong]);
 
   const previousSong = useCallback(() => {
-    if (currentSong && playlist.length > 0) {
-      const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
-      const previousIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      playSong(playlist[previousIndex]);
-    }
-  }, [currentSong, playlist, playSong]);
+    if (!currentSong) return;
+    
+    const currentIndex = orderedPlaylist.findIndex(song => song.id === currentSong.id);
+    const previousIndex = (currentIndex - 1 + orderedPlaylist.length) % orderedPlaylist.length;
+    playSong(orderedPlaylist[previousIndex]);
+  }, [currentSong, playSong]);
 
   const seekTo = useCallback((time: number) => {
     if (audioRef.current) {
@@ -155,7 +164,7 @@ export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ c
         togglePlay,
         nextSong,
         previousSong,
-        playlist,
+        playlist: orderedPlaylist,
         currentTime,
         duration,
         seekTo,

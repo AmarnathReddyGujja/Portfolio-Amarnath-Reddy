@@ -35,7 +35,7 @@ const About = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="space-y-8 bg-gradient-to-b from-black to-spotify-darkgray rounded-lg overflow-hidden"
+      className="space-y-8 bg-gradient-to-b from-black to-spotify-darkgray rounded-lg overflow-hidden pb-24 md:pb-16"
     >
       {/* Hero Section */}
       <div className="relative h-[60vh] overflow-hidden">

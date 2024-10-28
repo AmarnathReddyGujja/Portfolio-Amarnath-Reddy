@@ -1,0 +1,75 @@
+/* Home.css */
+@keyframes crazyRotate {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes crazyScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes crazyColor {
+  0% { color: #1DB954; }
+  25% { color: #FF6B6B; }
+  50% { color: #4ECDC4; }
+  75% { color: #FFD93D; }
+  100% { color: #1DB954; }
+}
+
+.crazy-text {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  line-height: 1.6;
+  letter-spacing: 1px;
+}
+
+.animated-letter {
+  display: inline-block;
+  animation: crazyRotate 0.5s ease-in-out infinite;
+}
+
+.animated-word {
+  display: inline-block;
+  animation: crazyScale 2s ease-in-out infinite, crazyColor 4s linear infinite;
+  margin: 0 5px;
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #1DB954, #FF6B6B, #4ECDC4, #FFD93D);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 300% 300%;
+  animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-text-animated {
+    background: linear-gradient(45deg, #ff00c1, #00fff9, #ff00c1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: gradient 3s linear infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

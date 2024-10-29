@@ -116,10 +116,7 @@ const About = () => {
               moshing with APIs. My code is so clean, it makes soap jealous!
             </p>
 
-            <p className="text-gray-300">
-              I've got more stars on GitHub than there are in the Hollywood Walk of Fame. My 
-              pull requests are like platinum records - always topping the charts! 🌟🎵
-            </p>
+
           </motion.div>
 
           {/* Updated Button Section with two buttons */}

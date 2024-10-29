@@ -23,3 +23,5 @@ Use the music player controls to pause, play, or skip sections.
 Frontend: React.js, Styled Components, Framer Motion for smooth animations.
 Music Player: Custom-built using JavaScript and Web Audio API.
 Responsive Design: Ensuring a seamless experience on all devices.
+![about](https://github.com/user-attachments/assets/0b41a7b8-8330-4516-853c-cdc7baa3e39d)
+
